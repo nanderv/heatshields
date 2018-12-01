@@ -6,8 +6,10 @@
 
 -- Return values: two booleans: update, delete
 core.run = function(filter, funct, args)
-    local l = E[filter]
-    for _,v in ipairs(l) do
+    print(filter)
+    pprint(F)
+    local l = F[filter]
+    for _,v in pairs(l) do
         local o, p = funct(v, args)
         if p then
             core.entity.remove(v)
