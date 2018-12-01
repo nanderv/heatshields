@@ -47,9 +47,16 @@ local doIfClick = function(k, x, y, exec)
 end
 getControls.engine = { {name = "enable", type="boolean", property="enabled"} }
 getControls.fuelTank = { {name = "enable", type="boolean", property="enabled"}, {name="Fuel links", type="boolean", property="links"} }
+
+local function onClickCustom(list, x, y )
+    for k, v in ipairs(list) do
+        doIfClick(k, x, y, function() clickUI[v.type](k, v.property, selected, v.func, x-listPosX, y-listPosY) end)
+    end
+end
+
 local function onClick(selected, x, y )
     for k, v in ipairs(getControls[selected.componentType]) do
         doIfClick(k, x, y, function() clickUI[v.type](k, v.property, selected, v.func, x-listPosX, y-listPosY) end)
     end
 end
-return {drawUI = drawUI, clickUI = clickUI, getControls=getControls, onClick = onClick, doIfClick = doIfClick, listPosX = listPosX, listPosY = listPosY}
+return {drawUI = drawUI, onClickCustom=onClickCustom, clickUI = clickUI, getControls=getControls, onClick = onClick, doIfClick = doIfClick, listPosX = listPosX, listPosY = listPosY}

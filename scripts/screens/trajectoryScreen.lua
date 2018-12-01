@@ -38,6 +38,12 @@ screen.drawAll = function()
     love.graphics.line(posOnScreenX, posOnScreenY, posOnScreenX + ship.dx, posOnScreenY + ship.dy)
     love.graphics.setColor(1,1,1)
     scripts.ui.controls.drawUI.slider(1, "Burn Speed", ship.burnRate)
+    for _, v in pairs(F.planet) do
+        print((dist(v.oX, v.oY, ship.oX, ship.oY)))
+        if (dist(v.oX, v.oY, ship.oX, ship.oY) < 40) then
+            scripts.ui.controls.drawUI.button(2, "Land", ship.burnRate)
+        end
+    end
 
 end
 
@@ -58,6 +64,18 @@ screen.onMouseClick = function(x, y)
         scripts.ui.controls.clickUI.slider(1, "burnRate", v, v.func, x-scripts.ui.controls.listPosX, y-scripts.ui.controls.listPosY)
     end)
 
+    for _, w in pairs(F.planet) do
+        print((dist(v.oX, v.oY, w.oX, w.oY)))
+
+        if (dist(v.oX, v.oY, w.oX, w.oY) < 40) then
+            print("HERE")
+            scripts.ui.controls.doIfClick(2, x, y, function()
+                v.planet = w.planetNumber
+                SCREEN = scripts.screens.landingScreen
+            end)
+        end
+    end
+
 end
 screen.onKeyDown = function(something)
     if something == "1" then
@@ -71,6 +89,9 @@ screen.onKeyDown = function(something)
     end
     if something == "4" then
         myspeed = 1.6
+    end
+    if something == "5" then
+        myspeed = 3.2
     end
     if something == "space" then
         myspeed = 0

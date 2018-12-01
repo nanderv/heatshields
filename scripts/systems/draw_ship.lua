@@ -8,8 +8,8 @@
 local func = {}
 local ship = love.graphics.newImage("sprites/ship.png")
 func.drawBackground = function(x, y, scale)
-    for i=0, 9 do
-        for j = 0, 9 do
+    for i=0, SHIPHEIGHT do
+        for j = 0, SHIPWIDTH do
             love.graphics.line(x, y+ j*scale, x+i*scale, y + j*scale)
             love.graphics.line(x + i * scale , y, x+i*scale, y + j*scale)
         end

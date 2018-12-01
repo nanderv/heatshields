@@ -2,6 +2,8 @@ love.graphics.setDefaultFilter( "nearest", "nearest", 1 )
 VARS = {}
 VARS.engineMaxConsumption = 10
 VARS.forcePerConsume = 20
+SHIPHEIGHT = 9
+SHIPWIDTH = 9
 pprint = require 'lib.pprint'
 require 'lib.helpers.core_funcs'
 require 'lib.ECFS'
@@ -28,7 +30,7 @@ function love.load()
 
     core.entity.add(scripts.entities.planet(500,700,20, 0, 50, { r= 0, g= 50, b= 0}))
     SHIPNUMBER = sn
-    SCREEN = scripts.screens.shipScreen
+    SCREEN = scripts.screens.landingScreen
 end
 
 function love.update(dt)
