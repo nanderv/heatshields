@@ -7,32 +7,34 @@
 --
 local funcs = {}
 
-funcs.getWeight = function(shipNumber)
+funcs.getWeight = function(ship)
     local weight = 0
+    local shipNumber = ship
+
     for k,v in pairs(F.ship_component) do
         if v.shipNumber == shipNumber then
             weight = weight + v.mass or 0
-            pprint(v)
         end
     end
-    print(weight)
     return weight
 
 end
 funcs.getMaxForce = function(shipNumber)
 
 end
+funcs.getCurrentForce = function(shipNumber)
+
+end
 funcs.getMaxAcc = function(shipNumber)
 
 end
-funcs.getFirstEngineShutoffAfter = function(shipNumber)
+funcs.getCurrentAcc = function(shipNumber)
 
 end
-
 funcs.updateShip = function(shipNumber)
     for k,v in pairs(F.ship) do
         if v.shipNumber == shipNumber then
-            v.mass = funcs.getWeight(shipNumber)
+            v.weight = funcs.getWeight(shipNumber)
         end
     end
 end

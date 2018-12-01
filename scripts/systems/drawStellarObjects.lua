@@ -26,15 +26,15 @@ funcs.drawStar = function(x,y,size, color)
     love.graphics.setColor(1,1,1)
 end
 
-funcs.drawAll = function()
+funcs.drawAll = function(x, y)
     for _,v in pairs(F.ship) do
-        funcs.drawShip(v.oX, v.oY, {r= 1, g = 0, b = 0})
+        funcs.drawShip(v.oX - x, v.oY - y, {r= 1, g = 0, b = 0})
     end
     for _,v in pairs(F.planet) do
-        funcs.drawPlanet(v.oX, v.oY, v.size, v.color)
+        funcs.drawPlanet(v.oX - x, v.oY - y, v.size, v.color)
     end
     for _,v in pairs(F.star) do
-        funcs.drawStar(v.oX, v.oY, v.size, v.color)
+        funcs.drawStar(v.oX - x, v.oY - y, v.size, v.color)
     end
 end
 return funcs
