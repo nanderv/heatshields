@@ -97,21 +97,17 @@ funcs.onMouseClick = function(x, y, click)
 
     onClick = onClick or scripts.ui.controls.onClickCustom
     onClick(uiElems(), x, y)
-    print(xx, yy, action)
     if canPlace(SHIPNUMBER, action, xx, yy) and action then
-        print("ACT", action)
         for k, v in pairs(F.ship_component) do
             if v.shipNumber == SHIPNUMBER and xx == v.position.x and yy == v.position.y then
                 if v.componentType == "cargo" then
                     v.cargo = action
                     MONEY = MONEY - getPlanet(getShip(SHIPNUMBER).planet).values[action]
-                    print(v.cargo)
                 end
             end
         end
         getPlanet(getShip(SHIPNUMBER).planet).values[action] = getPlanet(getShip(SHIPNUMBER).planet).values[action] + 50
     end
-
     scripts.ui.controls.doIfClick(14, x, y, function() SCREEN = scripts.screens.shipScreen end)
 end
 

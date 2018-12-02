@@ -26,32 +26,53 @@ local getPlanet = function(planetNumber)
         end
     end
 end
-local uiElems = {
-    {name = "Launch", type="button", func=function()
-        local pl = getPlanet(getShip(SHIPNUMBER).planet)
-        local s = getShip(SHIPNUMBER)
-        pprint(pl)
-        s.oX = pl.oX
-        s.oY = pl.oY
-        s.dx = pl.dx
-        s.dy = pl.dy
-        pprint(s)
+local uiElems = function()
+    local fuelNeeded = 0
+    for k, v in pairs(F.ship_component) do
+        if v.shipNumber == SHIPNUMBER then
+            if v.componentType == "fuelTank" then
+                fuelNeeded = fuelNeeded - v.amount + v.max
+            end
+        end
+    end
 
-        s.planet=nil
-    end},
-    {name = "Edit Ship", type="button", func=function()
-        SCREEN = scripts.screens.shipyard
-    end },
-    {name = "Buy", type="button", func=function()
-        SCREEN = scripts.screens.buy
-    end },
-    {name = "Sell", type="button", func=function()
-        SCREEN = scripts.screens.sell
-    end },
-    {name = "Refuel", type="button", func=function()
-        print("REFUELING")
-    end}
-}
+    return
+
+    {{name = "Launch", type="button", func=function()
+            local pl = getPlanet(getShip(SHIPNUMBER).planet)
+            local s = getShip(SHIPNUMBER)
+            pprint(pl)
+            s.oX = pl.oX
+            s.oY = pl.oY
+            s.dx = pl.dx
+            s.dy = pl.dy
+            pprint(s)
+
+            s.planet=nil
+        end},
+        {name = "Edit Ship", type="button", func=function()
+            SCREEN = scripts.screens.shipyard
+        end },
+        {name = "Buy", type="button", func=function()
+            SCREEN = scripts.screens.buy
+        end },
+        {name = "Sell", type="button", func=function()
+            SCREEN = scripts.screens.sell
+        end },
+        {name = "Refuel ( "..math.floor(fuelNeeded).. ")", type="button", func=function()
+            print("REFUELING")
+            if MONEY < fuelNeeded then return end
+            MONEY = MONEY - math.floor(fuelNeeded)
+            for k, v in pairs(F.ship_component) do
+                if v.shipNumber == SHIPNUMBER then
+                    if v.componentType == "fuelTank" then
+                        v.amount = v.max
+                    end
+                end
+            end
+        end}
+    }
+end
 
 funcs.drawRight = function()
     -- left right up down buttons
@@ -60,7 +81,7 @@ funcs.drawRight = function()
     onClick = onClick or scripts.ui.controls.onClickCustom
 
     love.graphics.print("Select an action.", 1000, 15)
-    for k, v in ipairs(uiElems) do
+    for k, v in ipairs(uiElems()) do
         drawUI[v.type](k, v.name, nil)
     end
 end
@@ -71,7 +92,7 @@ funcs.onMouseClick = function(x, y, click)
     local yy = math.floor((y - RY) / RS)
 
     onClick = onClick or scripts.ui.controls.onClickCustom
-    onClick(uiElems, x, y)
+    onClick(uiElems(), x, y)
 
 end
 

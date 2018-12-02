@@ -10,7 +10,7 @@
 local RX, RY, RS = 20, 80, 64;
 
 local funcs = {}
-local action
+local action = "SELL"
 
 
 local function canPlace(shipNumber, action, xx, yy)
@@ -74,10 +74,14 @@ funcs.drawRight = function()
     drawUI = drawUI or scripts.ui.controls.drawUI
     onClick = onClick or scripts.ui.controls.onClickCustom
 
-    love.graphics.print("Select an action.", 1000, 15)
-    for k, v in ipairs(uiElems()) do
-        drawUI[v.type](k, v.name, nil)
-    end
+    love.graphics.print("Select which location to sell from.", 1000, 15)
+
+
+    drawUI['text'](2, "Infor per product: ", nil)
+    for k,v in ipairs(getPlanet(getShip(SHIPNUMBER).planet).values) do
+            drawUI['text'](2+k, GETCARGO(k) .. " : ".. (v-60), nil)
+        end
+
 end
 
 local kreators = {}
@@ -99,7 +103,7 @@ funcs.onMouseClick = function(x, y, click)
             if v.shipNumber == SHIPNUMBER and xx == v.position.x and yy == v.position.y then
                 if v.componentType == "cargo" then
 
-                    MONEY = MONEY + getPlanet(getShip(SHIPNUMBER).planet).values[v.cargo]*0.9
+                    MONEY = MONEY + math.max(0,getPlanet(getShip(SHIPNUMBER).planet).values[v.cargo]- 60)
                     carg = v.cargo
                     v.cargo = nil
                 end

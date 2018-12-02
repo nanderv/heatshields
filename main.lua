@@ -37,25 +37,34 @@ function love.load()
     --aud:play()
     require 'scripts'
     local sn = NEXTSHIP()
-    local ent = scripts.entities.shipComponents.engine(1,1,sn)
+    local ent = scripts.entities.shipComponents.engine(1,9,sn)
     core.entity.add(ent)
-    local ent = scripts.entities.shipComponents.engine(2,1,sn)
+    local ent = scripts.entities.shipComponents.engine(2,9,sn)
     core.entity.add(ent)
-    local ent = scripts.entities.shipComponents.engine(3,1,sn)
+    local ent = scripts.entities.shipComponents.engine(3,9,sn)
     core.entity.add(ent)
 
-    local ent = scripts.entities.shipComponents.fuelTank(3,0,sn)
+    local ent = scripts.entities.shipComponents.fuelTank(3,8,sn)
     core.entity.add(ent)
-    local ent = scripts.entities.shipComponents.fuelTank(2,0,sn)
+    local ent = scripts.entities.shipComponents.fuelTank(2,8,sn)
     core.entity.add(ent)
-    local ent = scripts.entities.shipComponents.fuelTank(1,0,sn)
+    local ent = scripts.entities.shipComponents.fuelTank(1,8,sn)
     core.entity.add(ent)
+
+    local ent = scripts.entities.shipComponents.cargo(3,7,sn)
+    core.entity.add(ent)
+    local ent = scripts.entities.shipComponents.cargo(2,7,sn)
+    core.entity.add(ent)
+    local ent = scripts.entities.shipComponents.cargo(1,7,sn)
+    core.entity.add(ent)
+
     core.entity.add(scripts.entities.ship(sn,300,300,0,10, 1))
     scripts.systems.helpers.shipValues.updateShip(sn)
-    core.entity.add(scripts.entities.star(500,500,500,{ r= 50, g= 50, b= 50}))
+    core.entity.add(scripts.entities.star(0,0,500,{ r= 50, g= 50, b= 50}))
 
-    core.entity.add(scripts.entities.planet(500,700,20, 0, 50, { r= 0, g= 50, b= 0}))
-    core.entity.add(scripts.entities.planet(800,700,40, 0, 50, { r= 1, g= 0, b= 0}))
+    core.entity.add(scripts.entities.planet(100,200,30, 0, 50, { r= 0, g= 50, b= 0}))
+    core.entity.add(scripts.entities.planet(100,100,10, 0, 50, { r= 0, g= 0, b= 1}))
+    core.entity.add(scripts.entities.planet(100,400,50, 0, 50, { r= 1, g= 0, b= 0}))
 
     SHIPNUMBER = sn
     SCREEN = scripts.screens.buy
