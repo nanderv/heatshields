@@ -110,17 +110,14 @@ kreators.cargo = function(shipNumber, xx, yy)
     return scripts.entities.shipComponents.cargo(xx,yy,shipNumber)
 end
 funcs.onMouseClick = function(x, y, click)
-    print(x,y, click)
     -- Select ship part
     local xx = math.floor((x - RX) / RS)
     local yy = math.floor((y - RY) / RS)
 
     onClick = onClick or scripts.ui.controls.onClickCustom
     onClick(uiElems(), x, y)
-    print(xx,yy)
     if canPlace(SHIPNUMBER, action, xx, yy) then
         if action == "delete" then
-            print("DELETING")
             local found
             for k,v in pairs(F.ship_component) do
                 if v.shipNumber == SHIPNUMBER and xx == v.position.x and yy == v.position.y then
@@ -129,12 +126,13 @@ funcs.onMouseClick = function(x, y, click)
                 end
             end
             if found then
-                pprint(found)
                 core.entity.remove(found)
             end
         else
-            core.entity.add(kreators[action](SHIPNUMBER, xx, yy))
-            print("Adding entity ".. action)
+            local entity = kreators[action](SHIPNUMBER, xx, yy)
+            if entity then
+                core.entity.add(entity)
+            end
         end
 
     end
@@ -147,7 +145,9 @@ funcs.drawAll = function()
     funcs.drawLeft()
     funcs.drawRight()
     scripts.ui.controls.drawUI.button(14, "Switch to Ship View")
-
+    local oom = ""
+    if MONEY < (BUY[action] or 0) then oom = "(Not enough money)" end
+    printBottomRight((action  or "Select an action plese") .. oom)
 end
 funcs.update = function(dt) end
 return funcs

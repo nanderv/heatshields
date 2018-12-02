@@ -30,7 +30,6 @@ screen.drawAll = function()
     screen.drawLeft()
     screen.drawRight()
     local ship = getShip(SHIPNUMBER)
-    print(ship.oX, ship.oY, ship.dx, ship.dy)
     scripts.systems.drawStellarObjects.drawAll(ship.oX- posOnScreenX, ship.oY- posOnScreenY)
 
     love.graphics.setColor(0,0.5,0)
@@ -40,11 +39,16 @@ screen.drawAll = function()
     love.graphics.setColor(1,1,1)
     scripts.ui.controls.drawUI.slider(1, "Burn Speed", ship.burnRate)
     scripts.ui.controls.drawUI.button(2, "Cut Engines")
+    local totalFuel, currentFuel = 0, 0
+    for k,v in pairs(F.fuelTank) do
+        totalFuel = totalFuel + v.max
+        currentFuel = currentFuel + v.amount
+    end
+    scripts.ui.controls.drawUI.text(3, "FUEL : ".. math.floor(currentFuel) .." / " .. totalFuel )
 
     for _, v in pairs(F.planet) do
-        print((dist(v.oX, v.oY, ship.oX, ship.oY)))
         if (dist(v.oX, v.oY, ship.oX, ship.oY) < 40) then
-            scripts.ui.controls.drawUI.button(3, "Land", ship.burnRate)
+            scripts.ui.controls.drawUI.button(4, "Land", ship.burnRate)
         end
     end
 
@@ -57,7 +61,6 @@ end
 screen.onMouseClick = function(x, y)
     local d = dist(x,y,posOnScreenX, posOnScreenY )
     if d < 100 then
-        print("SET NEW DIRECTION")
         if d > 0 then
             getShip(SHIPNUMBER).burnDirection = math.atan2(y-posOnScreenY, x-posOnScreenX)
         end
@@ -70,11 +73,8 @@ screen.onMouseClick = function(x, y)
         v.burnRate = 0
     end)
     for _, w in pairs(F.planet) do
-        print((dist(v.oX, v.oY, w.oX, w.oY)))
-
         if (dist(v.oX, v.oY, w.oX, w.oY) < 40) then
-            print("HERE")
-            scripts.ui.controls.doIfClick(3, x, y, function()
+            scripts.ui.controls.doIfClick(4, x, y, function()
                 v.planet = w.planetNumber
                 SCREEN = scripts.screens.landingScreen
             end)

@@ -67,7 +67,6 @@ local uiElems = function()
             name = "Buy " .. v .. "(" .. pl.values[k] .. ")",
             type = "button",
             func = function()
-                print("Ä ")
                 action = k
             end
         }
@@ -90,7 +89,6 @@ local kreators = {}
 kreators.engine = function(shipNumber, xx, yy, item)
 end
 funcs.onMouseClick = function(x, y, click)
-    print(x, y, click)
     -- Select ship part
     local xx = math.floor((x - RX) / RS)
     local yy = math.floor((y - RY) / RS)

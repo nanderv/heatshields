@@ -25,21 +25,17 @@ funcs.drawRight = function()
     drawUI = drawUI or scripts.ui.controls.drawUI
     onClick = onClick or scripts.ui.controls.onClick
     if selected then
-        love.graphics.print("Selected" .. selected.componentType, 1000, 15)
         for k, v in ipairs(getControls[selected.componentType]) do
-            drawUI[v.type](k, v.name, selected[v.property])
+            drawUI[v.type](k, v.name, selected[v.property], v.func, selected)
         end
 
     else
-        love.graphics.print("Nothing selected", 1000, 15)
     end
 end
 funcs.onMouseClick = function(x, y, click)
-    print(x,y, click)
     -- Select ship part
     local xx = math.floor((x - RX) / RS)
     local yy = math.floor((y - RY) / RS)
-    print (xx, yy)
     for k,v in pairs(F.ship_component) do
         if v.shipNumber == SHIPNUMBER and xx == v.position.x and yy == v.position.y then
             selected = v
@@ -48,6 +44,7 @@ funcs.onMouseClick = function(x, y, click)
 
     onClick = onClick or scripts.ui.controls.onClick
     if selected then
+        pprint(selected)
         onClick(selected, x, y)
     end
     scripts.ui.controls.doIfClick(14, x, y, function()     SCREEN = scripts.screens.shipScreen end)

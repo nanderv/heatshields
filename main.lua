@@ -19,8 +19,10 @@ SELL = {
     fuelTank = 160
 }
 MONEY=1000
-
-
+HOVERTEXT = ""
+function printBottomRight (text)
+    love.graphics.print(text, 1000,540)
+end
 CARGOES = {"Oil", "Uranium", "Food", "Medicine", "Hydrogen", "Machines", "Water", "Gold"}
 local planets = {'Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn' }
 function GETCARGO(cargoNumber)
@@ -36,7 +38,7 @@ function love.load()
 
     local aud  = love.audio.newSource("sprites/2018-dec-ludum.ogg", "queue")
     aud:setLooping(true)
-    --aud:play()
+    aud:play()
     require 'scripts'
     local sn = NEXTSHIP()
     local ent = scripts.entities.shipComponents.engine(1,9,sn)
@@ -69,7 +71,7 @@ function love.load()
     core.entity.add(scripts.entities.planet(100,400,50, 0, 50, { r= 1, g= 0, b= 0}))
 
     SHIPNUMBER = sn
-    SCREEN = scripts.screens.buy
+    SCREEN = scripts.screens.start
 end
 
 function love.update(dt)
@@ -77,17 +79,17 @@ function love.update(dt)
 end
 
 function love.draw()
-    love.graphics.print(love.timer.getFPS(), 10, 10)
-    love.graphics.print(collectgarbage('count'), 50, 10)
  --   scripts.systems.draw_ship.drawBackground(10,10,64)
 
     SCREEN.drawAll()
-    RENDERTOP()
+    if     SCREEN ~= scripts.screens.start then
+        RENDERTOP()
+    end
 end
 
 function love.mousepressed( x, y, button )
     SCREEN.onMouseClick(x,y, button)
 end
 function love.keypressed( key, scancode, isrepeat )
-    SCREEN.onKeyDown(key)
+    if SCREEN.onKeyDown then SCREEN.onKeyDown(key) end
 end

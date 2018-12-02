@@ -22,6 +22,8 @@ screen.drawAll = function()
             scripts.screens.trajectoryScreen.drawAll()
         end
     end
+    scripts.ui.controls.drawUI.button(13, "Show current buying values")
+
     scripts.ui.controls.drawUI.button(14, "Switch to Ship Control")
 
 end
@@ -46,6 +48,8 @@ screen.onMouseClick = function(x, y)
             scripts.screens.trajectoryScreen.onMouseClick(x,y)
         end
     end
+    scripts.ui.controls.doIfClick(13, x, y, function()     SCREEN = scripts.screens.values end)
+
     scripts.ui.controls.doIfClick(14, x, y, function()     SCREEN = scripts.screens.shipControlScreen end)
 
 end

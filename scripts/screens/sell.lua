@@ -80,29 +80,35 @@ funcs.drawRight = function()
     drawUI['text'](2, "Infor per product: ", nil)
     for k,v in ipairs(getPlanet(getShip(SHIPNUMBER).planet).values) do
             drawUI['text'](2+k, GETCARGO(k) .. " : ".. (v-60), nil)
-        end
+    end
+    local x,y = love.mouse.getPosition()
+    local xx = math.floor((x - RX) / RS)
+    local yy = math.floor((y - RY) / RS)
 
+    for k, v in pairs(F.ship_component) do
+        if v.shipNumber == SHIPNUMBER and xx == v.position.x and yy == v.position.y then
+            if v.componentType == "cargo" then
+                printBottomRight(GETCARGO(v.cargo))
+            end
+        end
+    end
 end
 
 local kreators = {}
 kreators.engine = function(shipNumber, xx, yy, item)
 end
 funcs.onMouseClick = function(x, y, click)
-    print(x, y, click)
     -- Select ship part
     local xx = math.floor((x - RX) / RS)
     local yy = math.floor((y - RY) / RS)
 
     onClick = onClick or scripts.ui.controls.onClickCustom
     onClick(uiElems(), x, y)
-    print(xx, yy, action)
     if canPlace(SHIPNUMBER, action, xx, yy) and action then
-        print("ACT", action)
         local carg
         for k, v in pairs(F.ship_component) do
             if v.shipNumber == SHIPNUMBER and xx == v.position.x and yy == v.position.y then
                 if v.componentType == "cargo" then
-
                     MONEY = MONEY + math.max(0,getPlanet(getShip(SHIPNUMBER).planet).values[v.cargo]- 60)
                     carg = v.cargo
                     v.cargo = nil
@@ -113,6 +119,7 @@ funcs.onMouseClick = function(x, y, click)
     end
 
     scripts.ui.controls.doIfClick(14, x, y, function() SCREEN = scripts.screens.shipScreen end)
+
 end
 
 funcs.drawAll = function()

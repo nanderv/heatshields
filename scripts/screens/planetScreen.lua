@@ -41,13 +41,10 @@ local uiElems = function()
     {{name = "Launch", type="button", func=function()
             local pl = getPlanet(getShip(SHIPNUMBER).planet)
             local s = getShip(SHIPNUMBER)
-            pprint(pl)
             s.oX = pl.oX
             s.oY = pl.oY
             s.dx = pl.dx
             s.dy = pl.dy
-            pprint(s)
-
             s.planet=nil
         end},
         {name = "Edit Ship", type="button", func=function()
@@ -63,7 +60,6 @@ local uiElems = function()
             SCREEN = scripts.screens.values
         end },
         {name = "Refuel ( "..math.floor(fuelNeeded).. ")", type="button", func=function()
-            print("REFUELING")
             if MONEY < fuelNeeded then return end
             MONEY = MONEY - math.floor(fuelNeeded)
             for k, v in pairs(F.ship_component) do
@@ -89,7 +85,6 @@ funcs.drawRight = function()
     end
 end
 funcs.onMouseClick = function(x, y, click)
-    print(x,y, click)
     -- Select ship part
     local xx = math.floor((x - RX) / RS)
     local yy = math.floor((y - RY) / RS)

@@ -14,6 +14,7 @@ local function dist(obj, obj2)
     local yd = obj.oY - obj2.oY
     return math.sqrt(xd * xd + yd * yd)
 end
+local count = 0
 funcs.moveTime = function(speed, dt)
 
     local delta = speed*dt
@@ -36,6 +37,22 @@ funcs.moveTime = function(speed, dt)
     for _, v in pairs(F.orbital) do
         v.oX = v.oX + delta * v.dx
         v.oY = v.oY + delta * v.dy
+    end
+
+    count = count + delta
+    if count < 4 then return end
+    count = 0
+    for _, v in pairs(F.planet) do
+        for k, w  in ipairs(v.runs) do
+            if w == 0 then
+                v.runs[k] = math.random(1, 10)
+                v.directions[k] = -1* v.directions[k]
+                v.speeds[k] = math.random(1,2)
+            end
+            v.runs[k] = v.runs[k]-1
+            v.values[k] = v.values[k] + v.speeds[k]* v.directions[k]
+            if v.values[k] < 50 then v.runs[k] = 0 end
+        end
     end
 end
 return funcs

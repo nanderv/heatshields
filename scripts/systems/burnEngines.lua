@@ -37,48 +37,44 @@ return function(shipNumber, dt)
             components[v.position.x..":".. v.position.y] = v
         end
     end
-    local handled = {}
-    local engineGroups = {}
+
+    local eg = {}
+
+    eg.engines = {}
+    eg.fuelTanks = {}
     for k, v in pairs(components) do
-        if not handled[k] and v.componentType == "engine" then
-            handled[k] = k
-            local eg = {}
-            engineGroups[#engineGroups+1] = eg
-            eg.engines = {v }
-            eg.fuelTanks = {}
-            recurseThrough(components, handled, v, eg)
-
-
-            -- eg is one engine-group, so can be handled separately.
-            -- first thing: calculate fuel needed for full burn
-            local fuelNeeded = #(eg.engines) * VARS.engineMaxConsumption * ship.burnRate * dt
-            local fuelAvailable = 0
-
-            for _, v in ipairs(eg.fuelTanks) do
-                if v.enabled then
-                    fuelAvailable = fuelAvailable + v.amount
-                end
-            end
-            local consume = math.min(fuelAvailable, fuelNeeded)
-            print(consume, "CONS", fuelAvailable, fuelNeeded)
-            local velo = consume*VARS.forcePerConsume / scripts.systems.helpers.shipValues.getWeight(shipNumber)
-
-            ship.dx = ship.dx + velo *math.cos(ship.burnDirection)
-            ship.dy = ship.dy + velo *math.sin(ship.burnDirection)
-            local counter = 20
-            while counter > 0 do
-                counter = counter - 1
-                local rnd = consume
-                for _, tank in ipairs(eg.fuelTanks) do
-                    local remove = math.min(rnd/#eg.fuelTanks, tank.amount)
-                    tank.amount = tank.amount - remove
-                    consume = consume - remove
-                end
-            end
-
+        if  v.componentType == "engine" then
+            eg.engines[#eg.engines +1]= v
         end
-
+        if  v.componentType == "fuelTank" then
+            eg.fuelTanks[#eg.fuelTanks+1] = v
+        end
     end
 
+    -- eg is one engine-group, so can be handled separately.
+    -- first thing: calculate fuel needed for full burn
+    local fuelNeeded = #(eg.engines) * VARS.engineMaxConsumption * ship.burnRate * dt
+    local fuelAvailable = 0
+
+    for _, v in ipairs(eg.fuelTanks) do
+        if v.enabled then
+            fuelAvailable = fuelAvailable + v.amount
+        end
+    end
+    local consume = math.min(fuelAvailable, fuelNeeded)
+    local velo = consume*VARS.forcePerConsume / scripts.systems.helpers.shipValues.getWeight(shipNumber)
+
+    ship.dx = ship.dx + velo *math.cos(ship.burnDirection)
+    ship.dy = ship.dy + velo *math.sin(ship.burnDirection)
+    local counter = 20
+    while counter > 0 do
+        counter = counter - 1
+        local rnd = consume
+        for _, tank in ipairs(eg.fuelTanks) do
+            local remove = math.min(rnd/#eg.fuelTanks, tank.amount)
+            tank.amount = tank.amount - remove
+            consume = consume - remove
+        end
+    end
 end
 

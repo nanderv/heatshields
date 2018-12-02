@@ -32,9 +32,7 @@ local destroy = function(direction)
         end
         burns = {}
 
-        print(#components)
         if direction=="left" then
-            print("DES LEFT")
             for i=0,SHIPHEIGHT do
                 local found = false
                 for j=0, SHIPWIDTH do
@@ -46,7 +44,6 @@ local destroy = function(direction)
             end
         end
         if direction=="right" then
-            print("DES RIGHt")
             for i=0,SHIPHEIGHT do
                 local found = false
                 for k=0, SHIPWIDTH do
@@ -60,7 +57,6 @@ local destroy = function(direction)
             end
         end
         if direction=="up" then
-            print("DES UP")
             for i=0,SHIPWIDTH do
                 local found = false
                 for j=0, SHIPHEIGHT do
@@ -72,7 +68,6 @@ local destroy = function(direction)
             end
         end
         if direction=="down" then
-            print("DES DOWN")
             for i=0, SHIPWIDTH do
                 local found = false
                 for k=0, SHIPHEIGHT do
@@ -106,7 +101,6 @@ funcs.drawRight = function()
     end
 end
 funcs.onMouseClick = function(x, y, click)
-    print(x,y, click)
     -- Select ship part
     local xx = math.floor((x - RX) / RS)
     local yy = math.floor((y - RY) / RS)

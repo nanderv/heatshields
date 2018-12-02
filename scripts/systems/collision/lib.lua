@@ -72,7 +72,6 @@ f.execute_if_rule = function(entity1, entity2, prev)
     if f then
         return f(entity2, entity1, prev)
     end
-    print("ERROR, NO FUNC FOUND")
 end
 
 local function point_in_polygon(polygon, point, position, position2)
