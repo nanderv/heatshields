@@ -17,7 +17,9 @@ end
 drawUI.button = function(k, name)
     love.graphics.print(name, listPosX, listPosY+30*k )
 end
-
+drawUI.text = function(k, name)
+    love.graphics.print(name, listPosX, listPosY+30*k )
+end
 drawUI.slider = function(k, name, value)
     print(value, name)
     love.graphics.setColor(1,0.5,0.5,1)
@@ -38,7 +40,8 @@ end
 clickUI.slider = function(k, property, obj, _, x)
     obj[property] = x / 200
 end
-
+clickUI.text = function(k, property, obj, _, x)
+end
 local getControls = {}
 local doIfClick = function(k, x, y, exec)
     if(x > listPosX and y > listPosY+k*30 and y < listPosY+ 15 + k*30) then

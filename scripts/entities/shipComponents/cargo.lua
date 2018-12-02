@@ -6,6 +6,6 @@
 -- To change this template use File | Settings | File Templates.
 --
 return function(x, y, shipNumber)
-    return {componentType="cargo", shipNumber = shipNumber, position={x=x, y=y}, contains=nil, mass = 5, enabled = true, links = true }
+    return {componentType="cargo", shipNumber = shipNumber, position={x=x, y=y}, cargo=nil, mass = 5, enabled = true, links = true }
 end
 

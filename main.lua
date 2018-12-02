@@ -19,7 +19,11 @@ SELL = {
 }
 MONEY=1000
 
-local planets = {'Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn'}
+CARGOES = {"Oil", "Uranium", "Food", "Medicine", "Preciouses"}
+local planets = {'Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn' }
+function GETCARGO(cargoNumber)
+    return CARGOES[cargoNumber] or "<Nothing>"
+end
 function GETPLANET(planetNumber)
     return planets[planetNumber] or ""
 end
@@ -30,7 +34,7 @@ function love.load()
 
     local aud  = love.audio.newSource("sprites/2018-dec-ludum.ogg", "queue")
     aud:setLooping(true)
-    aud:play()
+    --aud:play()
     require 'scripts'
     local sn = NEXTSHIP()
     local ent = scripts.entities.shipComponents.engine(1,1,sn)
@@ -51,8 +55,10 @@ function love.load()
     core.entity.add(scripts.entities.star(500,500,500,{ r= 50, g= 50, b= 50}))
 
     core.entity.add(scripts.entities.planet(500,700,20, 0, 50, { r= 0, g= 50, b= 0}))
+    core.entity.add(scripts.entities.planet(800,700,40, 0, 50, { r= 1, g= 0, b= 0}))
+
     SHIPNUMBER = sn
-    SCREEN = scripts.screens.landingScreen
+    SCREEN = scripts.screens.buy
 end
 
 function love.update(dt)

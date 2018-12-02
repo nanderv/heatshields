@@ -41,6 +41,15 @@ local uiElems = {
     end},
     {name = "Edit Ship", type="button", func=function()
         SCREEN = scripts.screens.shipyard
+    end },
+    {name = "Buy", type="button", func=function()
+        SCREEN = scripts.screens.buy
+    end },
+    {name = "Sell", type="button", func=function()
+        SCREEN = scripts.screens.sell
+    end },
+    {name = "Refuel", type="button", func=function()
+        print("REFUELING")
     end}
 }
 
