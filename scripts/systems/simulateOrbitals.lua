@@ -23,12 +23,13 @@ funcs.moveTime = function(speed, dt)
     for _,v in pairs(F.orbital) do
         for _, w in  pairs(F.massSoure) do
             if (v ~= w) then
-
-                local g = delta * G * w.mass / dist(v,w) * dist(v,w)
-                local xG = g * (v.oX - w.oX) / dist(v,w)
-                local yG = g * (v.oY - w.oY) / dist(v,w)
-                v.dx = v.dx - xG
-                v.dy = v.dy - yG
+                if  dist(v,w) > 2 then
+                    local g = delta * G * w.mass / dist(v,w) * dist(v,w)
+                    local xG = g * (v.oX - w.oX) / dist(v,w)
+                    local yG = g * (v.oY - w.oY) / dist(v,w)
+                    v.dx = v.dx - xG
+                    v.dy = v.dy - yG
+                end
             end
         end
     end

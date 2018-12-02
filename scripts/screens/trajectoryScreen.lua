@@ -30,6 +30,7 @@ screen.drawAll = function()
     screen.drawLeft()
     screen.drawRight()
     local ship = getShip(SHIPNUMBER)
+    print(ship.oX, ship.oY, ship.dx, ship.dy)
     scripts.systems.drawStellarObjects.drawAll(ship.oX- posOnScreenX, ship.oY- posOnScreenY)
 
     love.graphics.setColor(0,0.5,0)

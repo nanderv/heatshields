@@ -24,7 +24,7 @@ function love.load()
     core.entity.add(ent)
     local ent = scripts.entities.shipComponents.fuelTank(1,0,sn)
     core.entity.add(ent)
-    core.entity.add(scripts.entities.ship(sn,300,300,0,10))
+    core.entity.add(scripts.entities.ship(sn,300,300,0,10, 1))
     scripts.systems.helpers.shipValues.updateShip(sn)
     core.entity.add(scripts.entities.star(500,500,500,{ r= 50, g= 50, b= 50}))
 
