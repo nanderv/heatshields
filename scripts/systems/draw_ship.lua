@@ -22,8 +22,11 @@ local function drawQuad(sprite, quad)
     end
 end
 local drawPart = {}
-local drawEngineOn = drawQuad(ship, love.graphics.newQuad(0, 0, 16, 16, ship:getWidth(), ship:getHeight()))
-local drawEngineOff = drawQuad(ship, love.graphics.newQuad(16, 16, 16, 16, ship:getWidth(), ship:getHeight()))
+local function getQuad(x,y)
+    return love.graphics.newQuad(x*16, y*16, 16, 16, ship:getWidth(), ship:getHeight())
+end
+local drawEngineOn = drawQuad(ship, getQuad(0,0) )
+local drawEngineOff = drawQuad(ship, getQuad(1,1))
 drawPart.engine = function(x,y,scale, coords, obj)
     if obj.enabled then
         drawEngineOn(x,y,scale, coords)
@@ -31,7 +34,8 @@ drawPart.engine = function(x,y,scale, coords, obj)
         drawEngineOff(x,y,scale, coords)
     end
 end
-drawPart.fuelTank = drawQuad(ship, love.graphics.newQuad(16, 0, 16, 16, ship:getWidth(), ship:getHeight()))
+drawPart.fuelTank = drawQuad(ship, getQuad(1,0))
+drawPart.cargo = drawQuad(ship, getQuad(5,0))
 func.drawShip = function(shipNumber, x,y,scale)
     for k,v in pairs(F.ship_component) do
         if v.shipNumber == shipNumber then

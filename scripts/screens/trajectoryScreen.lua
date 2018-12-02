@@ -39,10 +39,12 @@ screen.drawAll = function()
     love.graphics.line(posOnScreenX, posOnScreenY, posOnScreenX + ship.dx, posOnScreenY + ship.dy)
     love.graphics.setColor(1,1,1)
     scripts.ui.controls.drawUI.slider(1, "Burn Speed", ship.burnRate)
+    scripts.ui.controls.drawUI.button(2, "Cut Engines")
+
     for _, v in pairs(F.planet) do
         print((dist(v.oX, v.oY, ship.oX, ship.oY)))
         if (dist(v.oX, v.oY, ship.oX, ship.oY) < 40) then
-            scripts.ui.controls.drawUI.button(2, "Land", ship.burnRate)
+            scripts.ui.controls.drawUI.button(3, "Land", ship.burnRate)
         end
     end
 
@@ -64,13 +66,15 @@ screen.onMouseClick = function(x, y)
     scripts.ui.controls.doIfClick(1, x, y, function()
         scripts.ui.controls.clickUI.slider(1, "burnRate", v, v.func, x-scripts.ui.controls.listPosX, y-scripts.ui.controls.listPosY)
     end)
-
+    scripts.ui.controls.doIfClick(2, x, y, function()
+        v.burnRate = 0
+    end)
     for _, w in pairs(F.planet) do
         print((dist(v.oX, v.oY, w.oX, w.oY)))
 
         if (dist(v.oX, v.oY, w.oX, w.oY) < 40) then
             print("HERE")
-            scripts.ui.controls.doIfClick(2, x, y, function()
+            scripts.ui.controls.doIfClick(3, x, y, function()
                 v.planet = w.planetNumber
                 SCREEN = scripts.screens.landingScreen
             end)

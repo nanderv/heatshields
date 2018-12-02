@@ -8,7 +8,29 @@ pprint = require 'lib.pprint'
 require 'lib.helpers.core_funcs'
 require 'lib.ECFS'
 require 'lib.load_all_scripts'
+
+BUY = {
+    engine = 100,
+    fuelTank = 200
+}
+SELL = {
+    engine = 80,
+    fuelTank = 160
+}
+MONEY=1000
+
+local planets = {'Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn'}
+function GETPLANET(planetNumber)
+    return planets[planetNumber] or ""
+end
+RENDERTOP = function()
+    love.graphics.print("Money: ".. MONEY .. " - ShipNumber: " .. SHIPNUMBER .. " - ".. GETPLANET(getShip(SHIPNUMBER).planet), 300, 5)
+end
 function love.load()
+
+    local aud  = love.audio.newSource("sprites/2018-dec-ludum.ogg", "queue")
+    aud:setLooping(true)
+    aud:play()
     require 'scripts'
     local sn = NEXTSHIP()
     local ent = scripts.entities.shipComponents.engine(1,1,sn)
@@ -43,6 +65,7 @@ function love.draw()
  --   scripts.systems.draw_ship.drawBackground(10,10,64)
 
     SCREEN.drawAll()
+    RENDERTOP()
 end
 
 function love.mousepressed( x, y, button )
