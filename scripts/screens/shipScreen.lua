@@ -22,7 +22,7 @@ screen.drawAll = function()
             scripts.screens.trajectoryScreen.drawAll()
         end
     end
-    scripts.ui.controls.drawUI.button(13, "Show current buying values")
+    scripts.ui.controls.drawUI.button(13, "Prices at other planets")
 
     scripts.ui.controls.drawUI.button(14, "Switch to Ship Control")
 
@@ -57,7 +57,7 @@ screen.onKeyDown = function(something)
     if SHIPNUMBER then
         local ship = getShip(SHIPNUMBER)
         if ship.planet then
-            scripts.screens.planetScreen.onKeyDown(something)
+            if scripts.screens.planetScreen.onKeyDown then scripts.screens.planetScreen.onKeyDown(something) end
         else
             scripts.screens.trajectoryScreen.onKeyDown(something)
         end

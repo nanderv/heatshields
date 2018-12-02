@@ -1,6 +1,6 @@
 love.conf = function(t)
-    t.title = "Fluffy the Porcupine Saves the World"
-    t.version = "0.10.2"
+    t.title = "HEAT SHIELD"
+    t.version = "11.0"
     t.window.width = 1366
     t.window.height = 768
     t.window.resizable = false

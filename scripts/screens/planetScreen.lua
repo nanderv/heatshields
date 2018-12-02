@@ -56,9 +56,6 @@ local uiElems = function()
         {name = "Sell", type="button", func=function()
             SCREEN = scripts.screens.sell
         end },
-        {name = "Check Values at other Planets", type="button", func=function()
-            SCREEN = scripts.screens.values
-        end },
         {name = "Refuel ( "..math.floor(fuelNeeded).. ")", type="button", func=function()
             if MONEY < fuelNeeded then return end
             MONEY = MONEY - math.floor(fuelNeeded)

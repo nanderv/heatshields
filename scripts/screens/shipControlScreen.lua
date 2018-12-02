@@ -44,7 +44,6 @@ funcs.onMouseClick = function(x, y, click)
 
     onClick = onClick or scripts.ui.controls.onClick
     if selected then
-        pprint(selected)
         onClick(selected, x, y)
     end
     scripts.ui.controls.doIfClick(14, x, y, function()     SCREEN = scripts.screens.shipScreen end)

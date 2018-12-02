@@ -6,7 +6,6 @@
 -- To change this template use File | Settings | File Templates.
 --
 return function(x, y, shipNumber)
-    pprint(x,y, shipNumber)
     return {componentType="fuelTank", shipNumber = shipNumber, position={x=x, y=y}, amount = 100, max = 100, mass = 5, enabled = true, links = true, isFuelTank= true }
 end
 
