@@ -42,6 +42,7 @@ local function canPlace(shipNumber, action, xx, yy)
     end
 end
 funcs.drawLeft = function()
+    scripts.systems.draw_ship.drawBackground(RX, RY, RS)
     scripts.systems.draw_ship.drawShip(SHIPNUMBER, RX, RY, RS)
     local x, y = love.mouse.getPosition()
     local xx = math.floor((x - RX) / RS)
@@ -62,20 +63,23 @@ local getPlanet = function(planetNumber)
         end
     end
 end
-local uiElems = {
-    {name = "Add Engine", type="button", func=function()
+local uiElems = function()
+
+        return {
+    {name = "Add Engine ( " .. BUY.engine .. ")", type="button", func=function()
        action="engine"
     end},
-    {name = "Add FuelTank", type="button", func=function()
+    {name = "Add FuelTank ( " .. BUY.fuelTank.. ")", type="button", func=function()
         action="fuelTank"
     end},
-    {name = "Add Cargo", type="button", func=function()
+    {name = "Add Cargo ( " .. BUY.cargo .. ")", type="button", func=function()
         action="cargo"
     end},
     {name = "Delete thing", type="button", func=function()
         action = "delete"
     end}
-}
+        }
+    end
 
 funcs.drawRight = function()
     -- left right up down buttons
@@ -84,19 +88,25 @@ funcs.drawRight = function()
     onClick = onClick or scripts.ui.controls.onClickCustom
 
     love.graphics.print("Select an action.", 1000, 15)
-    for k, v in ipairs(uiElems) do
+    for k, v in ipairs(uiElems()) do
         drawUI[v.type](k, v.name, nil)
     end
 end
 
 local kreators = {}
 kreators.engine = function(shipNumber, xx, yy)
+    if MONEY < BUY.engine then return end
+    MONEY = MONEY - BUY.engine
     return scripts.entities.shipComponents.engine(xx,yy,shipNumber)
 end
 kreators.fuelTank = function(shipNumber, xx, yy)
+    if MONEY < BUY.fuelTank then return end
+    MONEY = MONEY - BUY.fuelTank
     return scripts.entities.shipComponents.fuelTank(xx,yy,shipNumber)
 end
 kreators.cargo = function(shipNumber, xx, yy)
+    if MONEY < BUY.cargo then return end
+    MONEY = MONEY - BUY.cargo
     return scripts.entities.shipComponents.cargo(xx,yy,shipNumber)
 end
 funcs.onMouseClick = function(x, y, click)
@@ -106,7 +116,7 @@ funcs.onMouseClick = function(x, y, click)
     local yy = math.floor((y - RY) / RS)
 
     onClick = onClick or scripts.ui.controls.onClickCustom
-    onClick(uiElems, x, y)
+    onClick(uiElems(), x, y)
     print(xx,yy)
     if canPlace(SHIPNUMBER, action, xx, yy) then
         if action == "delete" then
@@ -115,6 +125,7 @@ funcs.onMouseClick = function(x, y, click)
             for k,v in pairs(F.ship_component) do
                 if v.shipNumber == SHIPNUMBER and xx == v.position.x and yy == v.position.y then
                     found = v
+                    MONEY = MONEY + BUY[v.componentType]
                 end
             end
             if found then

@@ -11,7 +11,8 @@ require 'lib.load_all_scripts'
 
 BUY = {
     engine = 100,
-    fuelTank = 200
+    fuelTank = 200,
+    cargo = 250,
 }
 SELL = {
     engine = 80,
@@ -19,7 +20,8 @@ SELL = {
 }
 MONEY=1000
 
-CARGOES = {"Oil", "Uranium", "Food", "Medicine", "Preciouses"}
+
+CARGOES = {"Oil", "Uranium", "Food", "Medicine", "Hydrogen", "Machines", "Water", "Gold"}
 local planets = {'Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn' }
 function GETCARGO(cargoNumber)
     return CARGOES[cargoNumber] or "<Nothing>"

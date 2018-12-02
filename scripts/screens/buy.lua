@@ -101,6 +101,9 @@ funcs.onMouseClick = function(x, y, click)
         for k, v in pairs(F.ship_component) do
             if v.shipNumber == SHIPNUMBER and xx == v.position.x and yy == v.position.y then
                 if v.componentType == "cargo" then
+                    local val =  getPlanet(getShip(SHIPNUMBER).planet).values[action]
+                    if val > MONEY then return end
+
                     v.cargo = action
                     MONEY = MONEY - getPlanet(getShip(SHIPNUMBER).planet).values[action]
                 end
